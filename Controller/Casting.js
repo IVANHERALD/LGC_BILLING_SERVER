@@ -3,7 +3,7 @@ import CastingDetails from "../Model/Casting.js";
 export const createCasting = async (req, res, next) => {
     try {
         const {casting_name,casting_weight } = req.body;
-        if (casting_name,casting_weight) {
+        if (!casting_name||!casting_weight) {
             return res.status(422).json({ message: 'Invalid Inputs' });
         }
         const existingCasting = await CastingDetails.findOne({ casting_name });

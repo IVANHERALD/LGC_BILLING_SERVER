@@ -5,12 +5,12 @@ const Schema = mongoose.Schema;
 const CastingSchema = new Schema({
     casting_name:{
         type:String,
-        required:true
+        
 
     },
     casting_weight:{
         type:String,
-        required:true
+        
     }
 
 })
