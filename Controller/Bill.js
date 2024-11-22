@@ -50,6 +50,7 @@ export const fetchAndGenerateInvoiceNumber = async (req, res, next) => {
 
         // Get the current year (last two digits)
         const currentYear = new Date().getFullYear().toString().slice(-2);
+        
 
         let newBillNo = "0001"; // Default for the first bill
         if (latestBill) {
