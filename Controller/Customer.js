@@ -24,3 +24,12 @@ export const createCustomer = async (req, res, next) => {
 
     }
 };
+export const fetchCustomers = async (req, res, next) => {
+    try {
+      const customers = await CustomerDetails.find();
+      res.status(200).json({ customers });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  };

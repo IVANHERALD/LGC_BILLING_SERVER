@@ -11,6 +11,9 @@ const CastingSchema = new Schema({
     casting_weight:{
         type:String,
         
+    },
+    casting_hsn:{
+        type:String
     }
 
 })
