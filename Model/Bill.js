@@ -32,9 +32,7 @@ const BillSchema = new Schema({
     date_of_supply:{
         type:String
     },
-    place_of_supply:{
-        type:String
-    },
+    
     pono_date:{
         type:String,
     },
