@@ -131,6 +131,10 @@ const BillSchema = new Schema({
         type:Number,
         required:true,
     },
+    roundoff:{
+        type:Number,
+        required:true,
+    },
     grand_total:{
         type:Number,
         required:true,
