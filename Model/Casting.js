@@ -9,7 +9,7 @@ const CastingSchema = new Schema({
 
     },
     casting_weight:{
-        type:String,
+        type:Number,
         
     },
     casting_hsn:{
