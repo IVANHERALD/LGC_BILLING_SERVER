@@ -58,3 +58,27 @@ export const fetchAndGenerateInvoiceNumber = async (req, res, next) => {
         return next(error);
     }
 };
+export const fetchAndGenerateBillNumber = async (req, res, next) => {
+    try {
+        // Fetch the most recent bill
+        const latestBill = await BillDetails.findOne()
+            .sort({ _id: -1 }) // Sort by newest document
+            .exec();
+
+        let newBillNo;
+
+        if (latestBill) {
+            // Get the last bill number and increment
+            const latestSerialNo = parseInt(latestBill.invoice_no); // e.g., "138"
+            newBillNo = (latestSerialNo + 1).toString().padStart(3, "0"); // e.g., "139"
+        } else {
+            // No bills found, start with "001"
+            newBillNo = "001";
+        }
+
+        // Return the new bill number
+        return res.status(200).json({ invoice_no: newBillNo });
+    } catch (error) {
+        return next(error);
+    }
+};
