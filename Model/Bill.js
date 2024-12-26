@@ -38,7 +38,7 @@ const BillSchema = new Schema({
     },
     eway_bill_no:{
         type:String,
-        required:true
+        
     },
     receiver_name:{
         type:String,
