@@ -11,13 +11,19 @@ import mongoose from 'mongoose';
 dotenv.config();
 
 const app = express();
+const allowedOrigins = process.env.CLIENT_URL.split(',');
 
 
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:3000',
-  origin:'https://lgc-billing-client.vercel.app/',
-  //  // Allow requests from this origin
+  origin: (origin, callback) => {
+    // Check if the incoming origin is in the allowedOrigins array or if it's undefined (for server-to-server communication).
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
   credentials: true // Allow credentials (if needed)
 }));
