@@ -15,7 +15,9 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:3000', // Allow requests from this origin
+  origin: 'http://localhost:3000',
+  origin:'https://lgc-billing-client.vercel.app/',
+  //  // Allow requests from this origin
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
   credentials: true // Allow credentials (if needed)
 }));
