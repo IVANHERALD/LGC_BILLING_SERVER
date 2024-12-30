@@ -3,7 +3,7 @@ import CustomerDetails from "../Model/Customer.js";
 export const createCustomer = async (req, res, next) => {
     try {
         const {consignee_name,consignee_address,consignee_gstin,consignee_state,consignee_state_code } = req.body;
-        if (!consignee_name||!consignee_address||!consignee_gstin||!consignee_state||!consignee_state_code) {
+        if (!consignee_name||!consignee_address||!consignee_state||!consignee_state_code) {
             return res.status(422).json({ message: 'Invalid Inputs' });
         }
         const existingCustomer = await CustomerDetails.findOne({ consignee_name });
