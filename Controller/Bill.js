@@ -24,6 +24,15 @@ export const createBill = async (req, res, next) => {
 
     }
 };
+export const fetchBill = async (req, res, next) => {
+    try {
+      const BillDetails = await BillDetails.find();
+      res.status(200).json({ BillDetails  });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  };
 
 
 export const fetchAndGenerateInvoiceNumber = async (req, res, next) => {
