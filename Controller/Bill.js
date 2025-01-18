@@ -92,7 +92,7 @@ export const fetchAndGenerateBillNumber = async (req, res, next) => {
     }
 };
 export const updateBill = async(req,res,next) =>{
-    const invoice = req.query.invoice_no; 
+    const invoice = req.params.invoice_no; 
     try {
       const updatedBill = req.body; 
       if (!invoice) {

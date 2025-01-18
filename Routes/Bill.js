@@ -6,5 +6,5 @@ billRouter.post("/savebill",createBill);
 billRouter.get("/fetchbill",fetchBill);
 billRouter.get("/generate-invoice-number",fetchAndGenerateInvoiceNumber)
 billRouter.get("/billnumber",fetchAndGenerateBillNumber);
-billRouter.put("/updatebill",updateBill);
+billRouter.put("/updatebill/:invoice_no",updateBill);
 export default billRouter;
