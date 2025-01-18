@@ -91,3 +91,23 @@ export const fetchAndGenerateBillNumber = async (req, res, next) => {
         return next(error);
     }
 };
+export const updateBill = async(req,res,next) =>{
+    const invoice = req.query.invoice_no; 
+    try {
+      const updatedBill = req.body; 
+      if (!invoice) {
+        console.log(invoice)
+        return res.status(400).json({ message: 'Bill ID is required for updating.' });
+      }
+  
+      const existingBill= await BillDetails.findById(invoice);
+      if (!existingBill) {
+        return res.status(404).json({ message: 'Bill not found.' });
+      }
+      const updated = await BillDetails.findByIdAndUpdate(invoice, updatedBill, { new: true });
+      return res.status(200).json({ message: 'Bill updated successfully.', updated });
+    } catch (error) {
+      console.error('Bill updating Ticket:', error);
+      return res.status(500).json({ message: 'Internal server error.' });
+    }
+  };
