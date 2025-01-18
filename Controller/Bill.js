@@ -100,11 +100,11 @@ export const updateBill = async(req,res,next) =>{
         return res.status(400).json({ message: 'Bill ID is required for updating.' });
       }
   
-      const existingBill= await BillDetails.findById(invoice);
+      const existingBill= await BillDetails.findOne({invoice_no:invoice});
       if (!existingBill) {
         return res.status(404).json({ message: 'Bill not found.' });
       }
-      const updated = await BillDetails.findByIdAndUpdate(invoice, updatedBill, { new: true });
+      const updated = await BillDetails.findOneAndUpdate({invoice_no:invoice}, updatedBill, { new: true });
       return res.status(200).json({ message: 'Bill updated successfully.', updated });
     } catch (error) {
       console.error('Bill updating Ticket:', error);
