@@ -112,7 +112,7 @@ export const updateBill = async(req,res,next) =>{
     }
   };
   export const deleteBill = async (req, res, next) => {
-    const invoice = req.query.invoice_no; // Extract invoice_no from query parameters
+    const invoice = req.params.invoice_no; // Extract invoice_no from query parameters
     try {
       if (!invoice) {
         return res.status(400).json({ message: 'Invoice number is required for deleting the bill.' });
