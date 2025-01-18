@@ -111,3 +111,24 @@ export const updateBill = async(req,res,next) =>{
       return res.status(500).json({ message: 'Internal server error.' });
     }
   };
+  export const deleteBill = async (req, res, next) => {
+    const invoice = req.query.invoice_no; // Extract invoice_no from query parameters
+    try {
+      if (!invoice) {
+        return res.status(400).json({ message: 'Invoice number is required for deleting the bill.' });
+      }
+  
+      // Find and delete the bill
+      const deletedBill = await BillDetails.findOneAndDelete({ invoice_no: invoice });
+  
+      if (!deletedBill) {
+        return res.status(404).json({ message: 'Bill not found.' });
+      }
+  
+      return res.status(200).json({ message: 'Bill deleted successfully.', deletedBill });
+    } catch (error) {
+      console.error('Error deleting bill:', error);
+      return res.status(500).json({ message: 'Internal server error.' });
+    }
+  };
+  

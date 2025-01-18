@@ -7,4 +7,5 @@ billRouter.get("/fetchbill",fetchBill);
 billRouter.get("/generate-invoice-number",fetchAndGenerateInvoiceNumber)
 billRouter.get("/billnumber",fetchAndGenerateBillNumber);
 billRouter.put("/updatebill/:invoice_no",updateBill);
+billRouter.delete("/deletebill", deleteBill);
 export default billRouter;
