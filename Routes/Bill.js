@@ -1,4 +1,4 @@
-import { createBill, fetchAndGenerateBillNumber, fetchAndGenerateInvoiceNumber, fetchBill, updateBill } from '../Controller/Bill.js';
+import { createBill, fetchAndGenerateBillNumber, fetchAndGenerateInvoiceNumber, fetchBill, updateBill,deleteBill } from '../Controller/Bill.js';
 import express from 'express';
 
 const billRouter=express();
