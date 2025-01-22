@@ -2,13 +2,13 @@ import BillDetails from "../Model/Bill.js";
 
 export const createBill = async (req, res, next) => {
     try {
-        const { invoice_no, invoice_date, state, state_code, transport_name, vehicle_number, date_of_supply, pono_date, eway_bill_no, receiver_name, receiver_address, receiver_gstin, receiver_state, receiver_state_code, consignee_name, consignee_address, consignee_gstin, consignee_state, consignee_state_code ,items,total_before_tax,cgst,sgst,igst,roundoff,grand_total,grand_total_words} = req.body;
+        const { invoice_no, invoice_date, state, state_code, transport_name, vehicle_number, date_of_supply, pono_date, eway_bill_no, receiver_name, receiver_address, receiver_gstin, receiver_state, receiver_state_code, consignee_name, consignee_address, consignee_gstin, consignee_state, consignee_state_code ,items,totalquantity,totalweight,total_before_tax,cgst,sgst,igst,roundoff,grand_total,grand_total_words} = req.body;
         
       
         const existingBill = await BillDetails.findOne({ invoice_no });
         if (!existingBill) {
             const BillItem = new BillDetails({
-                invoice_no, invoice_date, state, state_code, transport_name, vehicle_number, date_of_supply, pono_date, eway_bill_no, receiver_name, receiver_address, receiver_gstin, receiver_state, receiver_state_code, consignee_name, consignee_address, consignee_gstin, consignee_state, consignee_state_code,items,total_before_tax,cgst,sgst,igst,roundoff,grand_total,grand_total_words
+                invoice_no, invoice_date, state, state_code, transport_name, vehicle_number, date_of_supply, pono_date, eway_bill_no, receiver_name, receiver_address, receiver_gstin, receiver_state, receiver_state_code, consignee_name, consignee_address, consignee_gstin, consignee_state, consignee_state_code,items,totalquantity,totalweight,total_before_tax,cgst,sgst,igst,roundoff,grand_total,grand_total_words
             });
             const savedBilltem = await BillItem.save();
             console.log(savedBilltem);
@@ -24,6 +24,15 @@ export const createBill = async (req, res, next) => {
 
     }
 };
+export const fetchBill = async (req, res, next) => {
+    try {
+      const Bill = await BillDetails.find();
+      res.status(200).json({ Bill  });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  };
 
 
 export const fetchAndGenerateInvoiceNumber = async (req, res, next) => {
@@ -82,3 +91,44 @@ export const fetchAndGenerateBillNumber = async (req, res, next) => {
         return next(error);
     }
 };
+export const updateBill = async(req,res,next) =>{
+    const invoice = req.params.invoice_no; 
+    try {
+      const updatedBill = req.body; 
+      if (!invoice) {
+        console.log(invoice)
+        return res.status(400).json({ message: 'Bill ID is required for updating.' });
+      }
+  
+      const existingBill= await BillDetails.findOne({invoice_no:invoice});
+      if (!existingBill) {
+        return res.status(404).json({ message: 'Bill not found.' });
+      }
+      const updated = await BillDetails.findOneAndUpdate({invoice_no:invoice}, updatedBill, { new: true });
+      return res.status(200).json({ message: 'Bill updated successfully.', updated });
+    } catch (error) {
+      console.error('Bill updating Ticket:', error);
+      return res.status(500).json({ message: 'Internal server error.' });
+    }
+  };
+  export const deleteBill = async (req, res, next) => {
+    const invoice = req.params.invoice_no; // Extract invoice_no from query parameters
+    try {
+      if (!invoice) {
+        return res.status(400).json({ message: 'Invoice number is required for deleting the bill.' });
+      }
+  
+      // Find and delete the bill
+      const deletedBill = await BillDetails.findOneAndDelete({ invoice_no: invoice });
+  
+      if (!deletedBill) {
+        return res.status(404).json({ message: 'Bill not found.' });
+      }
+  
+      return res.status(200).json({ message: 'Bill deleted successfully.', deletedBill });
+    } catch (error) {
+      console.error('Error deleting bill:', error);
+      return res.status(500).json({ message: 'Internal server error.' });
+    }
+  };
+  

@@ -112,7 +112,16 @@ const BillSchema = new Schema({
             
         },
         
+        
     }],
+    totalquantity:{
+        type:Number,
+        required:true,
+    },
+    totalweight:{
+        type:Number,
+        required:true,
+    },
     total_before_tax:{
         type:Number,
         required:true,
