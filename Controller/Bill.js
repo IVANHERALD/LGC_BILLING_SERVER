@@ -6,6 +6,7 @@ export const createBill = async (req, res, next) => {
         
       
         const existingBill = await BillDetails.findOne({ invoice_no });
+        
         if (!existingBill) {
             const BillItem = new BillDetails({
                 invoice_no, invoice_date, state, state_code, transport_name, vehicle_number, date_of_supply, pono_date, eway_bill_no, receiver_name, receiver_address, receiver_gstin, receiver_state, receiver_state_code, consignee_name, consignee_address, consignee_gstin, consignee_state, consignee_state_code,items,totalquantity,totalweight,total_before_tax,cgst,sgst,igst,cgstamount,sgstamount,igstamount,roundoff,grand_total,grand_total_words
@@ -16,6 +17,9 @@ export const createBill = async (req, res, next) => {
                 return res.status(500).json({ message: 'Unexpected error occurred' });
             }
             return res.status(201).json({ BillItem: savedBilltem });
+        }
+        else{
+          return res.status(400).json({ message: 'Bill with this invoice number already exists' });
         }
         
     }
