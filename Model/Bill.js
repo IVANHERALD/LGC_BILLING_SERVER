@@ -140,6 +140,21 @@ const BillSchema = new Schema({
         type:Number,
         required:true,
     },
+    cgstamount:{
+        type:Number,
+        required:true,
+
+    },
+    sgstamount:{
+        type:Number,
+        required:true,
+
+    },
+    igstamount:{
+        type:Number,
+        required:true,
+
+    },
     roundoff:{
         type:Number,
         required:true,
