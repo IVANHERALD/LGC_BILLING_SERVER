@@ -42,8 +42,9 @@ export const fetchCasting = async (req, res, next) => {
           console.log("name-2",casting)
           return res.status(400).json({ message: 'Casting name is required for updating.' });
         }
-        console.log(casting,updateCasting);
+        console.log("name-3",casting,updateCasting);
         const existingCasting= await CastingDetails.findOne({casting_name:casting});
+        console.log("existing",existingCasting);
         if (!existingCasting) {
           return res.status(404).json({ message: 'Casting not found.' });
         }
