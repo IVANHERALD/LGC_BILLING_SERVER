@@ -47,7 +47,7 @@ export const fetchCasting = async (req, res, next) => {
           return res.status(404).json({ message: 'Casting not found.' });
         }
     
-        return res.status(200).json({ message: 'Casting deleted successfully.', deletedBill });
+        return res.status(200).json({ message: 'Casting deleted successfully.', deletedCast });
       } catch (error) {
         console.error('Error deleting Casting:', error);
         return res.status(500).json({ message: 'Internal server error.' });
