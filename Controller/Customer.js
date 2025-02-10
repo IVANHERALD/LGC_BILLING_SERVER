@@ -34,7 +34,7 @@ export const fetchCustomers = async (req, res, next) => {
     }
   };
   export const updateCustomer = async(req,res,next) =>{
-        const consignee = req.params.consignee_name; 
+        const consignee = req.params.consignee_name.trim(); 
         try {
           const updatedCustomer = req.body; 
           if (!consignee) {
