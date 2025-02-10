@@ -37,6 +37,7 @@ export const fetchCasting = async (req, res, next) => {
       const casting = req.params.casting_name; 
       try {
         const updatedCasting = req.body; 
+        console.log(casting);
         if (!casting) {
           console.log(casting)
           return res.status(400).json({ message: 'Casting name is required for updating.' });
