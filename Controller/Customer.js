@@ -33,6 +33,27 @@ export const fetchCustomers = async (req, res, next) => {
       res.status(500).json({ error: "Internal Server Error" });
     }
   };
+  export const updateCustomer = async(req,res,next) =>{
+        const consignee = req.params.consignee_name; 
+        try {
+          const updatedCustomer = req.body; 
+          if (!consignee) {
+            console.log(consignee)
+            return res.status(400).json({ message: 'Consignee name is required for updating.' });
+          }
+      
+          const existingCustomer= await CustomerDetails.findOne({consignee_name:consignee});
+          if (!existingCustomer) {
+            return res.status(404).json({ message: 'Consignee not found.' });
+          }
+          const updated = await CustomerDetails.findOneAndUpdate({consignee_name:consignee}, updatedCustomer, { new: true });
+          return res.status(200).json({ message: 'Customer updated successfully.', updated });
+        } catch (error) {
+          console.error('Customer updating Ticket:', error);
+          return res.status(500).json({ message: 'Internal server error.' });
+        }
+      };
+    
   export const deleteCustomer = async (req, res, next) => {
     const customer = req.params.consignee_name; // Extract invoice_no from query parameters
     try {

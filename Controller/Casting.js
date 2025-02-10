@@ -33,6 +33,27 @@ export const fetchCasting = async (req, res, next) => {
       res.status(500).json({ error: "Internal Server Error" });
     }
   };
+  export const updateCasting = async(req,res,next) =>{
+      const casting = req.params.casting_name; 
+      try {
+        const updatedCasting = req.body; 
+        if (!casting) {
+          console.log(casting)
+          return res.status(400).json({ message: 'Casting name is required for updating.' });
+        }
+    
+        const existingCasting= await CastingDetails.findOne({casting_name:casting});
+        if (!existingCasting) {
+          return res.status(404).json({ message: 'Casting not found.' });
+        }
+        const updated = await CastingDetails.findOneAndUpdate({casting_name:casting}, updatedCasting, { new: true });
+        return res.status(200).json({ message: 'Casting updated successfully.', updated });
+      } catch (error) {
+        console.error('Casting updating Ticket:', error);
+        return res.status(500).json({ message: 'Internal server error.' });
+      }
+    };
+  
   export const deleteCasting = async (req, res, next) => {
       const casting = req.params.casting_name; // Extract invoice_no from query parameters
       try {
