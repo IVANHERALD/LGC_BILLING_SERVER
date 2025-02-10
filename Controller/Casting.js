@@ -33,3 +33,24 @@ export const fetchCasting = async (req, res, next) => {
       res.status(500).json({ error: "Internal Server Error" });
     }
   };
+  export const deleteCasting = async (req, res, next) => {
+      const casting = req.params.casting_name; // Extract invoice_no from query parameters
+      try {
+        if (!casting) {
+          return res.status(400).json({ message: ' Casting name is required for deleting the bill.' });
+        }
+    
+        // Find and delete the bill
+        const deletedCast = await CastingDetails.findOneAndDelete({ casting_name: casting });
+    
+        if (!deletedCast) {
+          return res.status(404).json({ message: 'Casting not found.' });
+        }
+    
+        return res.status(200).json({ message: 'Casting deleted successfully.', deletedBill });
+      } catch (error) {
+        console.error('Error deleting Casting:', error);
+        return res.status(500).json({ message: 'Internal server error.' });
+      }
+    };
+    
