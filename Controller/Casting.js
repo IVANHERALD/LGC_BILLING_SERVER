@@ -34,7 +34,7 @@ export const fetchCasting = async (req, res, next) => {
     }
   };
   export const updateCasting = async(req,res,next) =>{
-      const casting = req.params.casting_name.trim(); 
+      const casting = decodeURIComponent(req.params.casting_name.trim()); 
       try {
         const updatedCasting = req.body; 
         console.log("name-1",casting);
