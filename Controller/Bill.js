@@ -38,32 +38,51 @@ export const fetchBill = async (req, res, next) => {
     }
   };
 
-
-export const fetchAndGenerateInvoiceNumber = async (req, res, next) => {
+  export const fetchAndGenerateInvoiceNumber = async (req, res, next) => {
     try {
         // Fetch the most recent invoice
         const latestBill = await BillDetails.findOne()
             .sort({ _id: -1 }) // Sort by newest document
             .exec();
 
-        // Get the current year (last two digits)
-        const currentYear = new Date().getFullYear().toString().slice(-2);
-        
+        // Get current date details
+        const today = new Date();
+        const currentYear = today.getFullYear(); // e.g., 2025
+        const currentMonth = today.getMonth() + 1; // Jan = 0, so +1
 
-        let newBillNo = "0001"; // Default for the first bill
+        let fyStartYear, fyEndYear;
+
+        // Determine financial year (April to March)
+        if (currentMonth < 4) {
+            fyStartYear = currentYear - 1;
+            fyEndYear = currentYear;
+        } else {
+            fyStartYear = currentYear;
+            fyEndYear = currentYear + 1;
+        }
+
+        // Format financial year as (YY-YY)
+        const formattedYear = `(${fyStartYear.toString().slice(-2)}-${fyEndYear.toString().slice(-2)})`;
+
+        let newBillNo = "001"; // Default for the first invoice
+
         if (latestBill) {
-            const latestInvoiceNo = latestBill.invoice_no; // e.g., "LGC240001"
-            const latestYear = latestInvoiceNo.slice(3, 5); // e.g., "24"
-            const latestSerialNo = parseInt(latestInvoiceNo.slice(5)); // e.g., "0001"
+            const latestInvoiceNo = latestBill.invoice_no; // e.g., "LGC(24-25)0001"
+            const yearMatch = latestInvoiceNo.match(/\(\d{2}-\d{2}\)/); // Extract (24-25)
 
-            // If the year matches, increment the bill number
-            if (latestYear === currentYear) {
-                newBillNo = (latestSerialNo + 1).toString().padStart(4, "0"); // e.g., "0002"
+            if (yearMatch) {
+                const latestYear = yearMatch[0]; // Extracted financial year
+                const latestSerialNo = parseInt(latestInvoiceNo.slice(-4), 10); // Extract last 4 digits (serial number)
+
+                // If financial year matches, increment the serial number
+                if (latestYear === formattedYear) {
+                    newBillNo = (latestSerialNo + 1).toString().padStart(4, "0"); // e.g., "0002"
+                }
             }
         }
 
         // Generate the new invoice number
-        const newInvoiceNo = `LGC${currentYear}${newBillNo}`;
+        const newInvoiceNo = `LGC${formattedYear}${newBillNo}`;
 
         // Return the invoice number to the frontend
         return res.status(200).json({ invoice_no: newInvoiceNo });
@@ -71,6 +90,39 @@ export const fetchAndGenerateInvoiceNumber = async (req, res, next) => {
         return next(error);
     }
 };
+
+// export const fetchAndGenerateInvoiceNumber = async (req, res, next) => {
+//     try {
+//         // Fetch the most recent invoice
+//         const latestBill = await BillDetails.findOne()
+//             .sort({ _id: -1 }) // Sort by newest document
+//             .exec();
+
+//         // Get the current year (last two digits)
+//         const currentYear = new Date().getFullYear().toString().slice(-2);
+        
+
+//         let newBillNo = "0001"; // Default for the first bill
+//         if (latestBill) {
+//             const latestInvoiceNo = latestBill.invoice_no; // e.g., "LGC240001"
+//             const latestYear = latestInvoiceNo.slice(3, 5); // e.g., "24"
+//             const latestSerialNo = parseInt(latestInvoiceNo.slice(5)); // e.g., "0001"
+
+//             // If the year matches, increment the bill number
+//             if (latestYear === currentYear) {
+//                 newBillNo = (latestSerialNo + 1).toString().padStart(4, "0"); // e.g., "0002"
+//             }
+//         }
+
+//         // Generate the new invoice number
+//         const newInvoiceNo = `LGC${currentYear}${newBillNo}`;
+
+//         // Return the invoice number to the frontend
+//         return res.status(200).json({ invoice_no: newInvoiceNo });
+//     } catch (error) {
+//         return next(error);
+//     }
+// };
 export const fetchAndGenerateBillNumber = async (req, res, next) => {
     try {
         // Fetch the most recent bill
