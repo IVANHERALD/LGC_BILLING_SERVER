@@ -72,11 +72,11 @@ export const fetchBill = async (req, res, next) => {
 
             if (yearMatch) {
                 const latestYear = yearMatch[0]; // Extracted financial year
-                const latestSerialNo = parseInt(latestInvoiceNo.slice(-4), 10); // Extract last 4 digits (serial number)
+                const latestSerialNo = parseInt(latestInvoiceNo.slice(-3), 10); // Extract last 4 digits (serial number)
 
                 // If financial year matches, increment the serial number
                 if (latestYear === formattedYear) {
-                    newBillNo = (latestSerialNo + 1).toString().padStart(4, "0"); // e.g., "0002"
+                    newBillNo = (latestSerialNo + 1).toString().padStart(3, "0"); // e.g., "0002"
                 }
             }
         }
