@@ -57,7 +57,7 @@ export const fetchCasting = async (req, res, next) => {
     };
   
   export const deleteCasting = async (req, res, next) => {
-      const casting = req.params.casting_name; // Extract invoice_no from query parameters
+      const casting = decodeURIComponent(req.params.casting_name.trim()); // Extract invoice_no from query parameters
       try {
         if (!casting) {
           return res.status(400).json({ message: ' Casting name is required for deleting the bill.' });
