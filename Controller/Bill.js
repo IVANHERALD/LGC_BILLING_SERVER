@@ -62,13 +62,13 @@ export const fetchBill = async (req, res, next) => {
         }
 
         // Format financial year as (YY-YY)
-        const formattedYear = `(${fyStartYear.toString().slice(-2)}-${fyEndYear.toString().slice(-2)})`;
+        const formattedYear = `${fyStartYear.toString().slice(-2)}-${fyEndYear.toString().slice(-2)}`;
 
         let newBillNo = "001"; // Default for the first invoice
 
         if (latestBill) {
             const latestInvoiceNo = latestBill.invoice_no; // e.g., "LGC(24-25)0001"
-            const yearMatch = latestInvoiceNo.match(/\(\d{2}-\d{2}\)/); // Extract (24-25)
+            const yearMatch = latestInvoiceNo.match(/\d{2}-\d{2}/); // Extract (24-25)
 
             if (yearMatch) {
                 const latestYear = yearMatch[0]; // Extracted financial year
@@ -82,7 +82,7 @@ export const fetchBill = async (req, res, next) => {
         }
 
         // Generate the new invoice number
-        const newInvoiceNo = `LGC${formattedYear}${newBillNo}`;
+        const newInvoiceNo = `LGC/${formattedYear}/${newBillNo}`;
 
         // Return the invoice number to the frontend
         return res.status(200).json({ invoice_no: newInvoiceNo });
