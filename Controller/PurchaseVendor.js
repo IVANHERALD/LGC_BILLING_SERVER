@@ -1,4 +1,4 @@
-import PurchaseVendorDetails from "../Model/PurchaseVendor.js";
+import PurchaseVendorDetails from '../Model/PurchaseVendor.js'
 
 export const createVendor = async (req, res, next) => {
     try {
