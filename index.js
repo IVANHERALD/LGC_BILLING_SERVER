@@ -31,7 +31,7 @@ app.use(cors({
 app.use("/lgc",billRouter)
 app.use("/lgc",CustomerRouter)
 app.use("/lgc",CastingRouter)
-app.USE("/lgc",VendorRouter)
+app.use("/lgc",VendorRouter)
 
 
 
