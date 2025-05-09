@@ -5,6 +5,7 @@ import cors from 'cors'
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
+import VendorRouter from './Routes/PurchaseVendor.js';
 
 ;
 
@@ -30,6 +31,7 @@ app.use(cors({
 app.use("/lgc",billRouter)
 app.use("/lgc",CustomerRouter)
 app.use("/lgc",CastingRouter)
+app.USE("/lgc",VendorRouter)
 
 
 
