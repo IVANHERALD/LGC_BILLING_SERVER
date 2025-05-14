@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
 import VendorRouter from './Routes/PurchaseVendor.js';
+import PurchaseBillRouter from './Routes/PurchaseBill.js';
 
 ;
 
@@ -32,6 +33,7 @@ app.use("/lgc",billRouter)
 app.use("/lgc",CustomerRouter)
 app.use("/lgc",CastingRouter)
 app.use("/lgc",VendorRouter)
+app.use("/lgc",PurchaseBillRouter)
 
 
 
