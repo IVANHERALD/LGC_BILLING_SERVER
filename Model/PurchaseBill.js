@@ -60,6 +60,11 @@ const PurchaseBillSchema = new Schema({
     enum: ["30", "60", "paid"],
     required: true,
   },
+  purchase_due_date: {
+    type: String,
+    required: true,
+  },
+
   purchase_note: {
     type: String,
   },

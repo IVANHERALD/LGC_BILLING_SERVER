@@ -1,14 +1,14 @@
 import PurchaseBill from "../Model/PurchaseBill.js";
 export const createPurchaseBill = async (req, res, next) => {
     try {
-        const {vendor_name,purchase_date,invoice_no,items,subtotal,total_tax,total,payment_terms,purchase_note } = req.body;
+        const {vendor_name,purchase_date,invoice_no,items,subtotal,total_tax,total,payment_terms,purchase_due_date,purchase_note } = req.body;
         
       
         const existingPurchaseBill = await PurchaseBill.findOne({ invoice_no });
         
         if (!existingPurchaseBill) {
             const PurchaseBillItem = new PurchaseBill({
-                vendor_name,purchase_date,invoice_no,items,subtotal,total_tax,total,payment_terms,purchase_note
+                vendor_name,purchase_date,invoice_no,items,subtotal,total_tax,total,payment_terms,purchase_due_date,purchase_note
             });
             const savedPurchaseBilltem = await PurchaseBillItem.save();
             console.log(savedPurchaseBilltem);
