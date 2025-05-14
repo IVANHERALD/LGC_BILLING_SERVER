@@ -1,5 +1,5 @@
 import express from 'express';
-import { createPurchaseBill } from '../Controller/PurchaseBill';
+import { createPurchaseBill } from '../Controller/PurchaseBill.js';
 
 const PurchaseBillRouter=express();
 PurchaseBillRouter.post("/savepurchasebill",createPurchaseBill);
