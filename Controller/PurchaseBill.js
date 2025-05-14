@@ -1,4 +1,4 @@
-import PurchaseBill from "../Model/PurchaseBill";
+import PurchaseBill from "../Model/PurchaseBill.js";
 export const createPurchaseBill = async (req, res, next) => {
     try {
         const {vendor_name,purchase_date,invoice_no,items,subtotal,total_tax,total,payment_terms,purchase_note } = req.body;
