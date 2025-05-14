@@ -25,6 +25,7 @@ export const createVendor = async (req, res, next) => {
     }
 };
 export const fetchVendors = async (req, res, next) => {
+    
     try {
       const vendors = await PurchaseVendorDetails.find();
       res.status(200).json({ vendors });
