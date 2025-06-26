@@ -29,8 +29,8 @@ export const createPurchaseBill = async (req, res, next) => {
 };
 export const fetchPurchaseBill = async (req, res, next) => {
     try {
-      const PurchaseBill = await PurchaseBill.find();
-      res.status(200).json({ PurchaseBill  });
+      const getPurchaseBill = await PurchaseBill.find();
+      res.status(200).json({ getPurchaseBill  });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Internal Server Error" });
