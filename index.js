@@ -7,6 +7,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import VendorRouter from './Routes/PurchaseVendor.js';
 import PurchaseBillRouter from './Routes/PurchaseBill.js';
+import PurchasePaymentRouter from './Routes/PurchasePayment.js'
 
 ;
 
