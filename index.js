@@ -7,9 +7,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import VendorRouter from './Routes/PurchaseVendor.js';
 import PurchaseBillRouter from './Routes/PurchaseBill.js';
-import PurchasePaymentRouter from './Routes/PurchasePayment.js'
-
-;
+import PurchasepaymentRouter from './Routes/PurchasePayment.js'
 
 dotenv.config();
 
@@ -35,7 +33,7 @@ app.use("/lgc",CustomerRouter)
 app.use("/lgc",CastingRouter)
 app.use("/lgc",VendorRouter)
 app.use("/lgc",PurchaseBillRouter)
-app.use("/lgc",PurchasePaymentRouter)
+app.use("/lgc",PurchasepaymentRouter)
 
 
 
