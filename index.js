@@ -34,6 +34,7 @@ app.use("/lgc",CustomerRouter)
 app.use("/lgc",CastingRouter)
 app.use("/lgc",VendorRouter)
 app.use("/lgc",PurchaseBillRouter)
+app.use("/lgc",PurchasePaymentRouter)
 
 
 
