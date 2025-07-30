@@ -30,3 +30,16 @@ export const recordVendorPayment = async (req, res) => {
     return res.status(500).json({ message: 'Server error.' });
   }
 };
+export const getTotalPaid = async (req, res) => {
+  const { invoice_id } = req.params;
+  try {
+    const doc = await PurchasePayment.findOne({ invoice_id });
+    if (!doc) return res.status(404).json({ message: 'No payments found.' });
+
+    const totalPaid = doc.payments.reduce((acc, cur) => acc + cur.amount_paid, 0);
+    res.status(200).json({ totalPaid, payments: doc.payments });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error.' });
+  }
+};
