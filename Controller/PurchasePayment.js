@@ -43,3 +43,12 @@ export const getTotalPaid = async (req, res) => {
     res.status(500).json({ message: 'Server error.' });
   }
 };
+export const getVendorPayments = async (req, res) => {
+  const { vendor_id } = req.params;
+  try {
+    const records = await PurchasePayment.find({ vendor_id });
+    res.status(200).json(records);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to fetch vendor payments.' });
+  }
+};
