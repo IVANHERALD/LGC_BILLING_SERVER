@@ -1,5 +1,5 @@
 import express from "express";
-import { recordVendorPayment,getTotalPaid,getVendorPayments, getAllInvoicesWithPayments } from "../Controller/PurchasePayment.js";
+import { recordVendorPayment,getVendorPayments, getAllInvoicesWithPayments } from "../Controller/PurchasePayment.js";
 
 const PurchasepaymentRouter = express.Router();
 
