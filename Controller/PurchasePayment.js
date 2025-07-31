@@ -30,19 +30,43 @@ export const recordVendorPayment = async (req, res) => {
     return res.status(500).json({ message: 'Server error.' });
   }
 };
-export const getTotalPaid = async (req, res) => {
-  const { invoice_id } = req.params;
+// In your controller
+export const getAllInvoicesWithPayments = async (req, res) => {
   try {
-    const doc = await PurchasePayment.findOne({ invoice_id });
-    if (!doc) return res.status(404).json({ message: 'No payments found.' });
+    const invoices = await PurchaseInvoice.find(); // or whatever your invoice model is
 
-    const totalPaid = doc.payments.reduce((acc, cur) => acc + cur.amount_paid, 0);
-    res.status(200).json({ totalPaid, payments: doc.payments });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error.' });
+    const payments = await VendorPayment.aggregate([
+      {
+        $group: {
+          _id: "$invoice_id",
+          totalPaid: { $sum: "$paid_amount" }
+        }
+      }
+    ]);
+
+    // Create a map for quick lookup
+    const paymentMap = {};
+    payments.forEach(p => {
+      paymentMap[p._id] = p.totalPaid;
+    });
+
+    const result = invoices.map(invoice => {
+      const totalPaid = paymentMap[invoice.invoice_no] || 0;
+      const balance = invoice.total_amount - totalPaid;
+
+      return {
+        ...invoice._doc,
+        totalPaid,
+        balance
+      };
+    });
+
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
+
 export const getVendorPayments = async (req, res) => {
   const { vendor_id } = req.params;
   try {

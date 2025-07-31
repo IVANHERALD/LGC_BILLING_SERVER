@@ -1,10 +1,10 @@
 import express from "express";
-import { recordVendorPayment,getTotalPaid,getVendorPayments } from "../Controller/PurchasePayment.js";
+import { recordVendorPayment,getTotalPaid,getVendorPayments, getAllInvoicesWithPayments } from "../Controller/PurchasePayment.js";
 
 const PurchasepaymentRouter = express.Router();
 
 PurchasepaymentRouter.post("/record-purchasepayment", recordVendorPayment);
-PurchasepaymentRouter.get("/totalpaid/:invoice_id", getTotalPaid);
+PurchasepaymentRouter.get("/totalpaid", getAllInvoicesWithPayments);
 PurchasepaymentRouter.get("/vendor/:vendor_id", getVendorPayments);
 
 
