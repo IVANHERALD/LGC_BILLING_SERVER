@@ -3,9 +3,9 @@ import PurchasePayment from '../Model/PurchasePayment.js';
 import PurchaseBill from '../Model/PurchaseBill.js';
 
 export const recordVendorPayment = async (req, res) => {
-  const { invoice_id, vendor_id, payment } = req.body;
+  const { invoice_id, payment } = req.body;
 
-  if (!invoice_id || !vendor_id || !payment) {
+  if (!invoice_id  || !payment) {
     return res.status(400).json({ message: 'Missing required fields.' });
   }
 
@@ -16,7 +16,7 @@ export const recordVendorPayment = async (req, res) => {
       const newPayment = new PurchasePayment({
         payment_id: `PAY${uuidv4()}`,
         invoice_id,
-        vendor_id,
+        //vendor_id,
         payments: [payment],
       });
        await newPayment.save();
