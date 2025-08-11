@@ -52,7 +52,7 @@ export const getAllInvoicesWithPayments = async (req, res) => {
     });
 
     const result = invoices.map(invoice => {
-      const totalPaid = paymentMap[invoice.invoice_no] || 0;
+      const totalPaid = paymentMap[invoice.amount_paid] || 0;
       const balance = invoice.total - totalPaid;
 
       return {
