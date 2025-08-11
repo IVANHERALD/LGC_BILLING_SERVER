@@ -45,7 +45,7 @@ export const getAllInvoicesWithPayments = async (req, res) => {
       }
     ]);
 
-    // Create a map for quick lookup
+    // Create a map for quick lookup table
     const paymentMap = {};
     payments.forEach(p => {
       paymentMap[p._id] = p.totalPaid;
