@@ -44,6 +44,7 @@ export const getAllInvoicesWithPayments = async (req, res) => {
         }
       }
     ]);
+    console.log("Payments:", payments);
 
     // Create a map for quick lookup table
     const paymentMap = {};
