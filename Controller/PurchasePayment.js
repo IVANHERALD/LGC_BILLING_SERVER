@@ -40,7 +40,7 @@ export const getAllInvoicesWithPayments = async (req, res) => {
       {
         $group: {
           _id: "$invoice_id",
-          totalPaid: { $sum: "$amount_paid" }
+          totalPaid: { $sum: "$payments.amount_paid" }
         }
       }
     ]);
