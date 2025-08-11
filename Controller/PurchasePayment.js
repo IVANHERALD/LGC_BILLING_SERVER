@@ -39,8 +39,8 @@ export const getAllInvoicesWithPayments = async (req, res) => {
     const payments = await PurchasePayment.aggregate([
       {
         $group: {
-          _id: "$invoice_id",
-          totalPaid: { $sum: "$paid_amount" }
+          _id: "$invoice_no",
+          totalPaid: { $sum: "$amount" }
         }
       }
     ]);
@@ -53,7 +53,7 @@ export const getAllInvoicesWithPayments = async (req, res) => {
 
     const result = invoices.map(invoice => {
       const totalPaid = paymentMap[invoice.invoice_no] || 0;
-      const balance = invoice.total_amount - totalPaid;
+      const balance = invoice.total - totalPaid;
 
       return {
         ...invoice._doc,
