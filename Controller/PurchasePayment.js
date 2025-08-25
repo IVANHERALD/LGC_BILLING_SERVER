@@ -1,6 +1,6 @@
-import {v4 as uuidv4} from 'uuid';
-import PurchasePayment from '../Model/PurchasePayment.js';
 import PurchaseBill from '../Model/PurchaseBill.js';
+import PurchasePayment from '../Model/PurchasePayment.js';
+import {v4 as uuidv4} from 'uuid';
 
 export const recordVendorPayment = async (req, res) => {
   const { invoice_id, payment } = req.body;
@@ -37,6 +37,7 @@ export const getAllInvoicesWithPayments = async (req, res) => {
     const invoices = await PurchaseBill.find(); // or whatever your invoice model is
 
     const payments = await PurchasePayment.aggregate([
+      {$unwind:"$payments"},
       {
         $group: {
           _id: "$invoice_id",
@@ -53,7 +54,7 @@ export const getAllInvoicesWithPayments = async (req, res) => {
     });
 
     const result = invoices.map(invoice => {
-      const totalPaid = paymentMap[invoice.amount_paid] || 0;
+      const totalPaid = paymentMap[invoice.invoice_no] || 0;
       const balance = invoice.total - totalPaid;
 
       return {
