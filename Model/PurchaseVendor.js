@@ -2,6 +2,11 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 const PurchaseVendorSchema=new Schema({
+    vendor_id:{
+        type:String,
+        required:true,
+        unique:true,
+    },
     vendor_name:{
         type:String,
         required:true,
