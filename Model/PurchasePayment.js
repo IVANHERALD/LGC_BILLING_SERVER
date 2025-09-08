@@ -12,11 +12,11 @@ const PurchasePaymentSchema = new Schema({
     required: true,
     ref: "PurchaseBill",
   },
-  // vendor_id: {
-  //   type: String,
-  //   required: true,
-  //   ref: "Vendor",
-  // },
+   vendor_id: {
+    type: String,
+    required: true,
+    ref: "Vendor",
+  },
   payments: [
     {
       date: { type: String, required: true }, // Format: dd/mm/yyyy
