@@ -16,7 +16,7 @@ export const recordVendorPayment = async (req, res) => {
       const newPayment = new PurchasePayment({
         payment_id: `PAY${uuidv4()}`,
         invoice_id,
-        //vendor_id,
+        vendor_id,
         payments: [payment],
       });
        await newPayment.save();
