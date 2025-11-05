@@ -11,6 +11,7 @@ import mongoose from 'mongoose';
 dotenv.config();
 
 const app = express();
+
 const allowedOrigins = process.env.CLIENT_URL.split(',');
 
 
