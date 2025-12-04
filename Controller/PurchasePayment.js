@@ -11,7 +11,8 @@ export const recordVendorPayment = async (req, res) => {
 
   try {
     let paymentDoc = await PurchasePayment.findOne({ invoice_id });
-
+    const vendor_id = payment.vendor_id;
+    console.log("Vendor ID:", vendor_id);
     if (!paymentDoc) {
       const newPayment = new PurchasePayment({
         payment_id: `PAY${uuidv4()}`,
