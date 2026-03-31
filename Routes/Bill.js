@@ -1,4 +1,4 @@
-import { createBill, fetchAndGenerateBillNumber, fetchAndGenerateInvoiceNumber, fetchBill, updateBill,deleteBill } from '../Controller/Bill.js';
+import { createBill, fetchAndGenerateBillNumber, fetchAndGenerateInvoiceNumber, fetchBill, updateBill,deleteBill,exportGSTR1 } from '../Controller/Bill.js';
 import express from 'express';
 
 const billRouter=express();
@@ -8,4 +8,5 @@ billRouter.get("/generate-invoice-number",fetchAndGenerateInvoiceNumber)
 billRouter.get("/billnumber",fetchAndGenerateBillNumber);
 billRouter.put("/updatebill/:invoice_no",updateBill);
 billRouter.delete("/deletebill/:invoice_no",deleteBill);
+billRouter.get("/fetchgstr1",exportGSTR1);
 export default billRouter;
