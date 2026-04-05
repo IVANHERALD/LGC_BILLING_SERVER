@@ -325,7 +325,7 @@ const doc_issue={
     const result = {
       gstin: '33AVBPS2620N1ZJ',
       fp,
-      b2b,hsnData,
+      b2b,hsn,
       doc_issue,
     };
     return res.status(200).json(result);
