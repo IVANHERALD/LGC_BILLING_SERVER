@@ -14,6 +14,11 @@ const CastingSchema = new Schema({
     },
     casting_hsn:{
         type:String
+    },
+    pieces_per_box:{
+        type:Number,
+        required:true,
+        default:1
     }
 
 })
