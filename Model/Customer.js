@@ -13,6 +13,10 @@ const CustomerSchema = new Schema({
     consignee_gstin:{
         type:String,
     },
+    consignee_email:{
+        type:String,
+        lowercase:true
+    },
     consignee_state:{
         type:String,
     },

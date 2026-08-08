@@ -1,14 +1,16 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import CastingRouter from './Routes/Casting.js';
 import CustomerRouter from './Routes/Customer.js';
 import billRouter from './Routes/Bill.js';
+import EmailRouter from './Routes/Email.js';
 import cors from 'cors'
-import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
 
-;
 
-dotenv.config();
+
+
 
 const app = express();
 
@@ -31,7 +33,7 @@ app.use(cors({
 app.use("/lgc",billRouter)
 app.use("/lgc",CustomerRouter)
 app.use("/lgc",CastingRouter)
-
+app.use("/lgc",EmailRouter);
 
 
 
