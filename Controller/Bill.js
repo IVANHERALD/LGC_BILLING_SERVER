@@ -187,4 +187,154 @@ export const updateBill = async(req,res,next) =>{
       return res.status(500).json({ message: 'Internal server error.' });
     }
   };
-  
+export const exportGSTR1 = async (req, res, next) => {
+  const round = (num) => Math.round(num * 100) / 100;
+  try {
+    const { startDate, endDate, month, year } = req.query;
+    if ((!startDate || !endDate) && (!month || !year)) {
+      return res.status(400).json({ message: 'Start date, end date, month and year are required for exporting GSTR1 data.' });
+    }
+    const bills = await BillDetails.find();
+    let filteredBills = [];
+
+    const parseDate = (dateStr) => {
+      const [day, month, year] = dateStr.split("/");
+      return new Date(`${year}-${month}-${day}`);
+    };
+    if (startDate && endDate) {
+      console.log(startDate, endDate);
+      const start = parseDate(startDate);
+      const end = parseDate(endDate);
+      filteredBills = bills.filter((bill) => {
+        console.log(bill.invoice_no, bill.invoice_date);
+        const [datepart] = bill.invoice_date.split(" ");
+        const billDate = parseDate(datepart);
+        console.log(billDate);
+        return billDate >= start && billDate <= end;
+      });
+    }
+    else if (month && year) {
+      filteredBills = bills.filter((bill) => {
+        const [day, mon, yr] = bill.invoice_date.split(/[\/]/);
+        return parseInt(mon) === parseInt(month) && parseInt(yr) === parseInt(year);
+      });
+    }
+    else {
+      return res.status(400).json({ message: 'Invalid query parameters. Please provide either startDate and endDate or month and year.' });
+    }
+    const grouped = {};
+    filteredBills.forEach((bill) => {
+      const gstin = bill.receiver_gstin;
+      if (!grouped[gstin]) {
+        grouped[gstin] = [];
+      }
+      grouped[gstin].push({
+        inum: bill.invoice_no,
+        idt: (bill.invoice_date.split(" ")[0].replace(/\//g, "-")),
+        val: bill.grand_total,
+        pos: bill.receiver_state_code,
+        rchrg: 'N',
+        inv_typ: 'R',
+        itms: [
+          {
+            num: 1,
+            itm_det: {
+              txval: round(bill.total_before_tax),
+              rt: bill.cgst + bill.sgst + bill.igst + bill.igst,
+              iamt: round(bill.igstamount),
+              camt: round(bill.cgstamount),
+              samt: round(bill.sgstamount),
+              csamt: 0,
+            }
+          }
+        ]
+      });
+    });
+
+    const b2b = Object.keys(grouped).map((gstin) => ({
+      ctin: gstin,
+      inv: grouped[gstin]
+    }));
+    ///==============HSN============///
+    const hsnSummary = {};
+    filteredBills.forEach((bill) => {
+      bill.items.forEach((item) => {
+        const hsn = item.hsncode;
+        if (!hsnSummary[hsn]) {
+          hsnSummary[hsn] = {
+            num:Object.keys(hsnSummary).length + 1,
+            hsn_sc: hsn,
+            txval:0,
+            iamt:0,
+            camt:0,
+            samt:0,
+            csamt:0,
+            desc:"",
+            user_desc:"",
+            uqc:"OTH",
+            qty:0, 
+            rt:bill.cgst + bill.sgst + bill.igst,
+          };
+        }
+        
+        hsnSummary[hsn].txval = round(hsnSummary[hsn].txval + item.value
+);  
+        
+        const ratio = item.value / bill.total_before_tax;
+        hsnSummary[hsn].iamt += round(bill.igstamount * ratio) ;
+        hsnSummary[hsn].camt += round(bill.cgstamount * ratio) ;
+        hsnSummary[hsn].samt += round(bill.sgstamount * ratio) ;
+        hsnSummary[hsn].csamt += 0;
+      });
+    });
+    const hsn = {
+      hsn_b2b:Object.values(hsnSummary)
+    };
+///============== DOC ISSUE============///
+const sortedInvoices=filteredBills.map((b)=>b.invoice_no).sort();
+const doc_issue={
+  doc_det:[
+    {
+      doc_num:1,
+      docs:[
+        {
+          cancel:0,
+          from:sortedInvoices[0],
+          net_issue:sortedInvoices.length,
+          num:1,
+          to:sortedInvoices[sortedInvoices.length-1],
+          totnum:sortedInvoices.length,
+          
+        }
+      ]
+    }
+  ]
+};
+
+    
+    ///==============FP============///
+    let fp = "";
+    if (month && year) {
+      fp = `${month.toString().padStart(2, '0')}${year}`;
+
+    }
+    else {
+      const d = new Date(startDate);
+      fp = `${(d.getMonth() + 1).toString().padStart(2, '0')}${d.getFullYear()}`;
+    }
+    const result = {
+      gstin: '33AVBPS2620N1ZJ',
+      fp,
+      b2b,hsn,
+      doc_issue,
+    };
+    return res.status(200).json(result);
+  }
+  catch (error) {
+    console.error('Error exporting GSTR1 data:', error);
+    return res.status(500).json({ message: 'Internal server error.' });
+  }
+
+};
+
+    
