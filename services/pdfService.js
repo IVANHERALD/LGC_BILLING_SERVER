@@ -3,7 +3,13 @@ import puppeteer from 'puppeteer';
 export const generatePDF = async (bill) => {
     let browser;
     try {
-        browser = await puppeteer.launch({ headless: true });
+        browser = await puppeteer.launch({ headless: true,
+            args: [
+    "--no-sandbox",
+    "--disable-setuid-sandbox",
+  ],
+
+         });
         const page = await browser.newPage();
         page.on("console", msg => {
     console.log("BROWSER LOG:", msg.text());
