@@ -6,10 +6,14 @@ console.log("Executable path:", puppeteer.executablePath());
 export const generatePDF = async (bill) => {
     let browser;
     try {
+        console.log("PDF SERVICE VERSION 2");
+        console.log("Puppeteer executable path:");
+console.log(puppeteer.executablePath());
         browser = await puppeteer.launch({ headless: true,
             args: [
     "--no-sandbox",
     "--disable-setuid-sandbox",
+    "--disable-dev-shm-usage",
   ],
 
          });
