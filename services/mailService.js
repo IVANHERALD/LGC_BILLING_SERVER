@@ -1,5 +1,4 @@
 import nodemailer from 'nodemailer';
-import { PredefinedNetworkConditions } from 'puppeteer';
 import dotenv from 'dotenv';
 dotenv.config();
 const transporter = nodemailer.createTransport({
