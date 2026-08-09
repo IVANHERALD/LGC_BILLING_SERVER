@@ -1,5 +1,8 @@
 import puppeteer from 'puppeteer';
 
+
+console.log("Executable path:", puppeteer.executablePath());
+
 export const generatePDF = async (bill) => {
     let browser;
     try {
