@@ -27,6 +27,7 @@ export const sendEmail = async ({
     customerName,
     pdfBuffer,
   }) => {
+    console.log("Preparing mail...");
     const mailOptions = {
         from: process.env.EMAIL_USER,
         to,
@@ -45,6 +46,12 @@ export const sendEmail = async ({
             },
         ],
     };
-    return await transporter.sendMail(mailOptions);
+    console.log("Sending mail...");
+
+  const result = await transporter.sendMail(mailOptions);
+
+  console.log("Mail response:", result);
+
+  return result;
 
 };

@@ -38,12 +38,14 @@ console.log("Customer Email:", customer.consignee_email);
 console.log("Invoice No:", bill.invoice_no);
 console.log("Customer Name:", customer.consignee_name);
 console.log("================================");
+console.log("Calling sendEmail...");
           const mailResult=await sendEmail({
             to:customer.consignee_email,
             invoiceNo:bill.invoice_no,
             customerName:customer.consignee_name,
             pdfBuffer,});
-
+            console.log("Mail sent!");
+console.log(mailResult);
             return res.status(200).json({
                 suceess:true,
                 message:
