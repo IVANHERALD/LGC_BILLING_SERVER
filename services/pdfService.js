@@ -2,11 +2,27 @@ import puppeteer from 'puppeteer';
 
 
 console.log("Executable path:", puppeteer.executablePath());
+const chromePath = puppeteer.executablePath();
+console.log("Launching Chrome from:", chromePath);
+
+browser = await puppeteer.launch({
+  executablePath: chromePath,
+  headless: true,
+  args: [
+    "--no-sandbox",
+    "--disable-setuid-sandbox",
+    "--disable-dev-shm-usage",
+  ],
+});
+console.log("Launching Chrome from:", chromePath);
+console.log("Chrome launched successfully");
 
 export const generatePDF = async (bill) => {
     let browser;
     try {
-        browser = await puppeteer.launch({ headless: true,
+        browser = await puppeteer.launch({ 
+           executablePath: chromePath,
+            headless: true,
             args: [
     "--no-sandbox",
     "--disable-setuid-sandbox",
