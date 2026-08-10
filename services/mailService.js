@@ -6,6 +6,8 @@ const transporter = nodemailer.createTransport({
   port: 587,
   secure: false,
   family: 4, // Force IPv4
+  logger: true,
+  debug: true,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
@@ -24,7 +26,11 @@ transporter.verify((error, success) => {
 });
 console.log("EMAIL_USER =", process.env.EMAIL_USER);
 console.log("EMAIL_PASS =", process.env.EMAIL_PASS ? "Loaded" : "Missing");
+console.log("Verifying SMTP...");
 
+await transporter.verify();
+
+console.log("SMTP verified");
 export const sendEmail = async ({
     to,
     invoiceNo,
@@ -50,12 +56,14 @@ export const sendEmail = async ({
             },
         ],
     };
-    console.log("Sending mail...");
+    console.log("Preparing mail...");
 
-  const result = await transporter.sendMail(mailOptions);
+await transporter.verify();
 
-  console.log("Mail response:", result);
+console.log("SMTP verified");
 
-  return result;
+const result = await transporter.sendMail(mailOptions);
+console.log("Mail sent:", result);
+return result;
 
 };

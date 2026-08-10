@@ -1,4 +1,5 @@
-import puppeteer from "puppeteer-core";
+import puppeteer from "puppeteer";
+//import puppeteer from "puppeteer-core";
 import chromium from "@sparticuz/chromium";
 
 //console.log("Executable path:", puppeteer.executablePath());
@@ -13,7 +14,7 @@ export const generatePDF = async (bill) => {
     try {
         console.log("Generating PDF started");
         browser = await puppeteer.launch({ 
-            executablePath: await chromium.executablePath(),
+            
   args: chromium.args,
   headless: true,
            
