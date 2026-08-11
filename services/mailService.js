@@ -17,20 +17,12 @@ const transporter = nodemailer.createTransport({
   socketTimeout: 30000,
 
 });
-transporter.verify((error, success) => {
-  if (error) {
-    console.error("SMTP VERIFY ERROR:", error);
-  } else {
-    console.log("SMTP SERVER READY");
-  }
-});
+
 console.log("EMAIL_USER =", process.env.EMAIL_USER);
 console.log("EMAIL_PASS =", process.env.EMAIL_PASS ? "Loaded" : "Missing");
-console.log("Verifying SMTP...");
 
-await transporter.verify();
 
-console.log("SMTP verified");
+
 export const sendEmail = async ({
     to,
     invoiceNo,
